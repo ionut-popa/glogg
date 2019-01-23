@@ -66,6 +66,10 @@ class LogFilteredData : public AbstractLogData {
     // Returns the line number in the original LogData where the element
     // 'index' was found.
     qint64 getMatchingLineNumber( int index ) const;
+    // Set time reference line
+    void setLineTimesReference( qint64 lineNumber );
+    qint64 getTimesReference();
+
     // Returns whether the line number passed is in our list of matching ones.
     bool isLineInMatchingList( qint64 lineNumber );
 
@@ -147,6 +151,8 @@ class LogFilteredData : public AbstractLogData {
     int maxLengthMarks_;
     // Number of lines of the LogData that has been searched for:
     qint64 nbLinesProcessed_;
+
+    qint64 timeReferenceLine_;
 
     Visibility visibility_;
 

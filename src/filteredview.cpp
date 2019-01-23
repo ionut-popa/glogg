@@ -23,6 +23,8 @@
 
 #include <cassert>
 
+#include <QDebug>
+
 #include "filteredview.h"
 
 FilteredView::FilteredView( LogFilteredData* newLogData,
@@ -69,9 +71,24 @@ AbstractLogView::LineType FilteredView::lineType( int lineNumber ) const
 
 qint64 FilteredView::displayLineNumber( int lineNumber ) const
 {
-    // Display a 1-based index
+    // Display a 1-based index    
     return logFilteredData_->getMatchingLineNumber( lineNumber ) + 1;
 }
+
+
+qint64 FilteredView::displayLineTimestamp( int lineNumber ) const
+{
+    // Display a 1-based index
+    QString line = QString::number(QDate::currentDate().year()) + "-" + logFilteredData_->getLineString( lineNumber );
+    line = line.mid(0, 23);
+    QDateTime timestamp = QDateTime::fromString(line, "yyyy-MM-dd HH:mm:ss.zzz");
+    if (!timestamp.isNull()) {
+        return timestamp.toMSecsSinceEpoch() - logFilteredData_->getTimesReference();
+    } else {
+        return 0;
+    }
+}
+
 
 qint64 FilteredView::maxDisplayLineNumber() const
 {

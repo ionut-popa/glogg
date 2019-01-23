@@ -57,6 +57,9 @@ class AbstractLogData : public QObject {
     // Set the view to use the passed encoding for display
     void setDisplayEncoding( Encoding encoding );
 
+    void setLineTimesReference( qint64 lineNumber );
+    qint64 getTimesReference();
+
     // Length of a tab stop
     static const int tabStop = 8;
 

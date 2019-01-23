@@ -625,6 +625,13 @@ void AbstractLogView::keyPressEvent( QKeyEvent* keyEvent )
                             emit markLine( line );
                         break;
                     }
+                case 't':
+                    {
+                        qint64 line = selection_.selectedLine();
+                        if ( line >= 0 )
+                            emit timeReferenceLine( line );
+                        break;
+                    }
                 default:
                     keyEvent->ignore();
             }
@@ -859,6 +866,11 @@ qint64 AbstractLogView::displayLineNumber( int lineNumber ) const
 qint64 AbstractLogView::maxDisplayLineNumber() const
 {
     return logData->getNbLine();
+}
+
+qint64 AbstractLogView::displayLineTimestamp ( int lineNumber ) const
+{
+    return 0;
 }
 
 void AbstractLogView::setOverview( Overview* overview,
@@ -1480,7 +1492,7 @@ void AbstractLogView::drawTextArea( QPaintDevice* paint_device, int32_t )
     bulletZoneWidthPx_ = contentStartPosX;
 
     // Update the length of line numbers
-    const int nbDigitsInLineNumber = countDigits( maxDisplayLineNumber() );
+    const int nbDigitsInLineNumber = countDigits( maxDisplayLineNumber() ) + 1 + 20;
 
     // Draw the line numbers area
     int lineNumberAreaStartX = 0;
@@ -1699,6 +1711,8 @@ void AbstractLogView::drawTextArea( QPaintDevice* paint_device, int32_t )
             painter.setPen( palette.color( QPalette::Text ) );
             painter.drawText( lineNumberAreaStartX + LINE_NUMBER_PADDING,
                     yPos + fontAscent, lineNumberStr );
+            painter.drawText( lineNumberAreaStartX + LINE_NUMBER_PADDING,
+                    yPos + fontAscent, QString::number(displayLineTimestamp( line_index )) );
         }
     } // For each line
 

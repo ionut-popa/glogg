@@ -403,6 +403,31 @@ void CrawlerWidget::markLineFromFiltered( qint64 line )
     }
 }
 
+
+void CrawlerWidget::timeReferenceLineFromFiltered( qint64 line )
+{
+    if ( line < logFilteredData_->getNbLine() ) {
+        qint64 line_in_file = logFilteredData_->getMatchingLineNumber( line );
+        logFilteredData_->setLineTimesReference( line_in_file );
+//        if ( logFilteredData_->filteredLineTypeByIndex( line )
+//                == LogFilteredData::Mark )
+//            logFilteredData_->deleteMark( line_in_file );
+//        else
+//            logFilteredData_->addMark( line_in_file );
+
+//        // Recompute the content of both window.
+        filteredView->updateData();
+        logMainView->updateData();
+
+//        // Update the match overview
+        overview_.updateData( logData_->getNbLine() );
+
+//        // Also update the top window for the coloured bullets.
+        update();
+    }
+}
+
+
 void CrawlerWidget::applyConfiguration()
 {
     std::shared_ptr<Configuration> config =
@@ -782,7 +807,8 @@ void CrawlerWidget::setup()
             this, SLOT( markLineFromMain( qint64 ) ) );
     connect(filteredView, SIGNAL( markLine( qint64 ) ),
             this, SLOT( markLineFromFiltered( qint64 ) ) );
-
+    connect(filteredView, SIGNAL( timeReferenceLine( qint64 ) ),
+            this, SLOT( timeReferenceLineFromFiltered( qint64 ) ) );
     connect(logMainView, SIGNAL( addToSearch( const QString& ) ),
             this, SLOT( addToSearch( const QString& ) ) );
     connect(filteredView, SIGNAL( addToSearch( const QString& ) ),

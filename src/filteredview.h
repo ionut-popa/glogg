@@ -45,6 +45,8 @@ class FilteredView : public AbstractLogView
     virtual qint64 displayLineNumber( int lineNumber ) const;
     virtual qint64 maxDisplayLineNumber() const;
 
+    virtual qint64 displayLineTimestamp ( int lineNumber ) const;
+
     virtual void keyPressEvent( QKeyEvent* keyEvent );
 
   private:

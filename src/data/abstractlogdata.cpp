@@ -75,3 +75,14 @@ void AbstractLogData::setDisplayEncoding( Encoding encoding )
 {
     doSetDisplayEncoding( encoding );
 }
+
+
+void AbstractLogData::setLineTimesReference( qint64 lineNumber )
+{
+    //nothing
+}
+
+qint64 AbstractLogData::getTimesReference()
+{
+    return 0;
+}

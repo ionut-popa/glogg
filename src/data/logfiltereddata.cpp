@@ -24,6 +24,8 @@
 #include "log.h"
 
 #include <QString>
+#include <QDebug>
+
 #include <cassert>
 #include <limits>
 
@@ -131,6 +133,20 @@ qint64 LogFilteredData::getMatchingLineNumber( int matchNum ) const
     qint64 matchingLine = findLogDataLine( matchNum );
 
     return matchingLine;
+}
+
+void LogFilteredData::setLineTimesReference( qint64 lineNumber )
+{
+    ;
+    QString line = QString::number(QDate::currentDate().year()) + "-" + sourceLogData_->getLineString( lineNumber );
+    line = line.mid(0, 23);
+    QDateTime timestamp = QDateTime::fromString(line, "yyyy-MM-dd HH:mm:ss.zzz");
+    timeReferenceLine_ = timestamp.toMSecsSinceEpoch();
+}
+
+
+qint64 LogFilteredData::getTimesReference() {
+    return timeReferenceLine_;
 }
 
 // Scan the list for the 'lineNumber' passed

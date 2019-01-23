@@ -155,6 +155,8 @@ class CrawlerWidget : public QSplitter,
     void markLineFromMain( qint64 line );
     // Mark a line that has been clicked on the filtered (bottom) view.
     void markLineFromFiltered( qint64 line );
+    // Time reference updated
+    void timeReferenceLineFromFiltered( qint64 line );
 
     void loadingFinishedHandler( LoadingStatus status );
     // Manages the info lines to inform the user the file has changed.
